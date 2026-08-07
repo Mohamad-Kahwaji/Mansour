@@ -9,7 +9,7 @@ class Site_settings extends Model
 {
     use HasTranslations;
 
-    public array $translatable = ['site_name', 'tagline', 'about', 'address'];
+    public array $translatable = ['site_name', 'tagline', 'about', 'address', 'established_location'];
 
     protected $fillable = [
         'site_name',
@@ -25,5 +25,7 @@ class Site_settings extends Model
         'linkedin_url',
         'x_url',
         'google_map_url',
+        'established_location',
+        'established_year',
     ];
 }

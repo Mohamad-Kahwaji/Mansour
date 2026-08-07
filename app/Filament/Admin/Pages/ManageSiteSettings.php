@@ -6,13 +6,13 @@ use App\Models\Site_settings;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Form;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 
@@ -45,6 +45,7 @@ class ManageSiteSettings extends Page
             $data['tagline'] = $record->getTranslations('tagline');
             $data['about'] = $record->getTranslations('about');
             $data['address'] = $record->getTranslations('address');
+            $data['established_location'] = $record->getTranslations('established_location');
         }
 
         $this->form->fill($data);
@@ -55,7 +56,9 @@ class ManageSiteSettings extends Page
         return $schema
             ->components([
                 Form::make([
-                    Fieldset::make('اسم الموقع')
+                    Section::make('الهوية الأساسية')
+                        ->description('اسم الموقع والشعار النصي كما يظهران للزوار')
+                        ->icon(Heroicon::OutlinedIdentification)
                         ->columns(2)
                         ->schema([
                             TextInput::make('site_name.ar')
@@ -64,37 +67,63 @@ class ManageSiteSettings extends Page
                             TextInput::make('site_name.en')
                                 ->label('Site name (English)')
                                 ->required(),
-                        ]),
-                    Fieldset::make('الشعار النصي')
-                        ->columns(2)
-                        ->schema([
                             TextInput::make('tagline.ar')
                                 ->label('الشعار النصي (عربي)'),
                             TextInput::make('tagline.en')
                                 ->label('Tagline (English)'),
                         ]),
-                    Fieldset::make('نبذة عن الشركة')
+                    Section::make('نبذة عن الشركة')
+                        ->description('فقرة تعريفية قصيرة تظهر بالصفحة الرئيسية')
+                        ->icon(Heroicon::OutlinedDocumentText)
                         ->columns(2)
                         ->schema([
                             Textarea::make('about.ar')
-                                ->label('نبذة (عربي)'),
+                                ->label('نبذة (عربي)')
+                                ->rows(4),
                             Textarea::make('about.en')
-                                ->label('About (English)'),
+                                ->label('About (English)')
+                                ->rows(4),
                         ]),
-                    Fieldset::make('العنوان')
+                    Section::make('معلومات التأسيس')
+                        ->description('تظهر بقسم Hero بالصفحة الرئيسية (مثال: Riyadh · 2005)')
+                        ->icon(Heroicon::OutlinedCalendar)
+                        ->columns(2)
+                        ->schema([
+                            TextInput::make('established_location.ar')
+                                ->label('مكان التأسيس (عربي)'),
+                            TextInput::make('established_location.en')
+                                ->label('Establishment location (English)'),
+                            TextInput::make('established_year')
+                                ->label('سنة التأسيس')
+                                ->numeric()
+                                ->minValue(1900)
+                                ->maxValue((int) date('Y')),
+                        ]),
+                    Section::make('العنوان والموقع')
+                        ->icon(Heroicon::OutlinedMapPin)
                         ->columns(2)
                         ->schema([
                             TextInput::make('address.ar')
                                 ->label('العنوان (عربي)'),
                             TextInput::make('address.en')
                                 ->label('Address (English)'),
+                            TextInput::make('google_map_url')
+                                ->label('رابط خرائط جوجل')
+                                ->url()
+                                ->columnSpanFull(),
                         ]),
-                    FileUpload::make('logo')
-                        ->label('شعار الموقع (لوجو)')
-                        ->image()
-                        ->directory('site')
-                        ->columnSpanFull(),
-                    Fieldset::make('التواصل')
+                    Section::make('الشعار (اللوجو)')
+                        ->icon(Heroicon::OutlinedPhoto)
+                        ->schema([
+                            FileUpload::make('logo')
+                                ->label('شعار الموقع (لوجو)')
+                                ->image()
+                                ->disk('public')
+                                ->directory('site')
+                                ->columnSpanFull(),
+                        ]),
+                    Section::make('معلومات التواصل')
+                        ->icon(Heroicon::OutlinedPhone)
                         ->columns(3)
                         ->schema([
                             TextInput::make('phone')
@@ -107,7 +136,8 @@ class ManageSiteSettings extends Page
                                 ->label('البريد الإلكتروني')
                                 ->email(),
                         ]),
-                    Fieldset::make('روابط التواصل الاجتماعي')
+                    Section::make('روابط التواصل الاجتماعي')
+                        ->icon(Heroicon::OutlinedShare)
                         ->columns(2)
                         ->schema([
                             TextInput::make('facebook_url')
@@ -123,10 +153,6 @@ class ManageSiteSettings extends Page
                                 ->label('X (تويتر)')
                                 ->url(),
                         ]),
-                    TextInput::make('google_map_url')
-                        ->label('رابط خرائط جوجل')
-                        ->url()
-                        ->columnSpanFull(),
                 ])
                     ->livewireSubmitHandler('save')
                     ->footer([
@@ -145,7 +171,7 @@ class ManageSiteSettings extends Page
     {
         $data = $this->form->getState();
 
-        $record = $this->getRecord() ?? new Site_settings();
+        $record = $this->getRecord() ?? new Site_settings;
 
         $record->fill($data);
         $record->save();

@@ -2,11 +2,13 @@
 
 namespace App\Filament\Admin\Resources\Projects\Schemas;
 
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 
 class ProjectForm
 {
@@ -14,7 +16,9 @@ class ProjectForm
     {
         return $schema
             ->components([
-                Fieldset::make('العنوان')
+                Section::make('عنوان المشروع')
+                    ->icon(Heroicon::OutlinedTag)
+                    ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         TextInput::make('title.ar')
@@ -24,7 +28,9 @@ class ProjectForm
                             ->label('Title (English)')
                             ->required(),
                     ]),
-                Fieldset::make('نطاق العمل')
+                Section::make('نطاق العمل')
+                    ->icon(Heroicon::OutlinedClipboardDocumentList)
+                    ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         Textarea::make('scope.ar')
@@ -34,16 +40,39 @@ class ProjectForm
                             ->label('Scope (English)')
                             ->required(),
                     ]),
-                TextInput::make('client'),
-                TextInput::make('location'),
-                TextInput::make('year')
-                    ->numeric(),
-                TextInput::make('sort_order')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Toggle::make('is_featured')
-                    ->required(),
+                Section::make('تفاصيل المشروع')
+                    ->icon(Heroicon::OutlinedBuildingOffice)
+                    ->columnSpanFull()
+                    ->columns(3)
+                    ->schema([
+                        TextInput::make('client')
+                            ->label('العميل'),
+                        TextInput::make('location')
+                            ->label('الموقع'),
+                        TextInput::make('year')
+                            ->label('السنة')
+                            ->numeric(),
+                        TextInput::make('sort_order')
+                            ->label('ترتيب العرض')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                        Toggle::make('is_featured')
+                            ->label('مشروع مميز')
+                            ->required(),
+                    ]),
+                Section::make('معرض الصور')
+                    ->icon(Heroicon::OutlinedPhoto)
+                    ->columnSpanFull()
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('معرض صور المشروع')
+                            ->collection('gallery')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 }

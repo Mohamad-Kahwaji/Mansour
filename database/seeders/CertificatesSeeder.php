@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\certificates;
 use Illuminate\Database\Seeder;
 
 class CertificatesSeeder extends Seeder
@@ -12,6 +12,18 @@ class CertificatesSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $certificates = [
+            [
+                'title' => ['ar' => 'اعتماد STI لتطبيق الفايرستوبينغ', 'en' => 'STI Accredited Firestop Applicator'],
+                'issuer' => 'Specified Technologies Inc. (STI)',
+                'issued_at' => '2022-03-01',
+                'expires_at' => '2023-03-30',
+                'sort_order' => 1,
+            ],
+        ];
+
+        foreach ($certificates as $certificate) {
+            certificates::create($certificate);
+        }
     }
 }

@@ -12,6 +12,15 @@ export default defineConfig({
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),
+                bunny('Archivo', {
+                    weights: [500, 600, 700, 800],
+                }),
+                bunny('Inter', {
+                    weights: [400, 500, 600],
+                }),
+                bunny('IBM Plex Sans Arabic', {
+                    weights: [400, 500, 600, 700],
+                }),
             ],
         }),
         tailwindcss(),
