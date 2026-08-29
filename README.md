@@ -14,6 +14,16 @@ Mansour is a corporate marketing website with complete RTL (Arabic) and LTR (Eng
 - ⚡ Fast, modern frontend built with Vite and Tailwind CSS
 - ✅ Test coverage with Pest
 
+## Screenshots
+
+### Frontend homepage
+
+![Homepage Screenshot](docs/screenshots/home-page.png)
+
+### Admin dashboard
+
+![Admin Dashboard Screenshot](docs/screenshots/admin-dashboard.png)
+
 ## Tech Stack
 
 - **Backend:** Laravel 13, PHP 8.3
