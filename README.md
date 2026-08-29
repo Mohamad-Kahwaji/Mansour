@@ -24,6 +24,30 @@ Mansour is a corporate marketing website with complete RTL (Arabic) and LTR (Eng
 
 ![Admin Dashboard Screenshot](docs/screenshots/admin-dashboard.png)
 
+### Admin - Site Settings
+
+![Site Settings Screenshot](docs/screenshots/admin-site-settings.png)
+
+### Admin - Firestopping Section
+
+![Firestopping Screenshot](docs/screenshots/admin-firestopping.png)
+
+### Admin - Certificates
+
+![Certificates Screenshot](docs/screenshots/admin-certificates.png)
+
+### Admin - Group Companies
+
+![Group Companies Screenshot](docs/screenshots/admin-group-companies.png)
+
+### Admin - Projects
+
+![Projects Screenshot](docs/screenshots/admin-projects.png)
+
+### Admin - Services
+
+![Services Screenshot](docs/screenshots/admin-services.png)
+
 ## Tech Stack
 
 - **Backend:** Laravel 13, PHP 8.3
