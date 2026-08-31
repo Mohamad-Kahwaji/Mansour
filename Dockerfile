@@ -1,3 +1,16 @@
+# ---------- Node / Vite build ----------
+FROM node:22-alpine AS frontend
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+
+# ---------- PHP / Laravel ----------
 FROM php:8.4-fpm
 
 WORKDIR /var/www/html
@@ -25,21 +38,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy project files
 COPY . .
 
-# Create cache directories BEFORE composer install
-RUN mkdir -p /var/www/html/bootstrap/cache
-RUN mkdir -p /var/www/html/storage
-RUN mkdir -p /var/www/html/storage/logs
-RUN mkdir -p /var/www/html/storage/framework
-RUN mkdir -p /var/www/html/storage/framework/cache
-RUN mkdir -p /var/www/html/storage/framework/sessions
-RUN mkdir -p /var/www/html/storage/framework/views
+# Copy Vite production build
+COPY --from=frontend /app/public/build ./public/build
 
-# Set proper permissions BEFORE composer install
-RUN chown -R www-data:www-data /var/www/html
-RUN chmod -R 775 /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage
+# Create required directories
+RUN mkdir -p \
+    bootstrap/cache \
+    storage/logs \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views
 
-# Now install composer dependencies
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 bootstrap/cache storage
+
+# Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
