@@ -25,10 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy project files
 COPY . .
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Create cache directories
+# Create cache directories BEFORE composer install
 RUN mkdir -p /var/www/html/bootstrap/cache
 RUN mkdir -p /var/www/html/storage
 RUN mkdir -p /var/www/html/storage/logs
@@ -37,14 +34,13 @@ RUN mkdir -p /var/www/html/storage/framework/cache
 RUN mkdir -p /var/www/html/storage/framework/sessions
 RUN mkdir -p /var/www/html/storage/framework/views
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage
+# Set proper permissions BEFORE composer install
+RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage
 
-# Generate APP_KEY if needed
-RUN php artisan key:generate --force || true
+# Now install composer dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
