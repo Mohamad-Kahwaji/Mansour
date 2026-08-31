@@ -1,9 +1,8 @@
-FROM php:8.4-fpm
-
+FROM php:8.3-fpm
 
 WORKDIR /var/www/html
 
-# تثبيت الـ dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -13,22 +12,40 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# تثبيت PHP extensions
+# Install PHP extensions
 RUN docker-php-ext-install \
     intl \
     zip \
     exif \
     pdo_mysql
 
-# نسخ Composer من صورة رسمية
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# نسخ المشروع
+# Copy project files
 COPY . .
 
-# تثبيت Composer dependencies
-RUN composer install --optimize-autoloader --no-scripts --no-interaction
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# تشغيل Laravel
+# Create cache directories
+RUN mkdir -p /var/www/html/bootstrap/cache
+RUN mkdir -p /var/www/html/storage
+RUN mkdir -p /var/www/html/storage/logs
+RUN mkdir -p /var/www/html/storage/framework
+RUN mkdir -p /var/www/html/storage/framework/cache
+RUN mkdir -p /var/www/html/storage/framework/sessions
+RUN mkdir -p /var/www/html/storage/framework/views
+
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage
+RUN chmod -R 775 /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage
+
+# Generate APP_KEY if needed
+RUN php artisan key:generate --force || true
+
 EXPOSE 8000
+
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
