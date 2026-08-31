@@ -7,8 +7,9 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build
 
+RUN npm run build
+RUN ls -la public/build
 
 # ---------- PHP / Laravel ----------
 FROM php:8.4-fpm
