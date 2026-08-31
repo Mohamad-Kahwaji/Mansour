@@ -1,31 +1,32 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
-# تحديث وتثبيت المتطلبات الأساسية
+
+WORKDIR /var/www/html
+
+# تثبيت الـ dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     zip \
     unzip \
     libicu-dev \
-    libzip-dev
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# تثبيت PHP Extensions المحتاجة
+# تثبيت PHP extensions
 RUN docker-php-ext-install \
     intl \
     zip \
     exif \
     pdo_mysql
 
-# تثبيت Composer
+# نسخ Composer من صورة رسمية
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# تحديد مجلد العمل
-WORKDIR /app
 
 # نسخ المشروع
 COPY . .
 
-# تثبيت Dependencies
+# تثبيت Composer dependencies
 RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
 # تشغيل Laravel
