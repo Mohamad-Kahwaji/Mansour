@@ -51,6 +51,8 @@ class ServicesForm
                         TextInput::make('icon')
                             ->label('أيقونة الخدمة')
                             ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
+                            ->nullable()
+                            ->dehydrateStateUsing(static fn(?string $state): ?string => filled(trim((string) $state)) ? trim((string) $state) : null)
                             ->rule(static function (string $attribute, mixed $value, Closure $fail): void {
                                 if (blank($value)) {
                                     return;
