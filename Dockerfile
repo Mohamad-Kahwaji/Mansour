@@ -48,7 +48,8 @@ RUN mkdir -p \
     storage/logs \
     storage/framework/cache \
     storage/framework/sessions \
-    storage/framework/views
+    storage/framework/views \
+    storage/app/public
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
@@ -59,4 +60,6 @@ RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Recreate the public/storage symlink on every boot since the volume-backed
+# storage/app/public directory is only mounted at container runtime.
+CMD ["sh", "-c", "php artisan storage:link --force; php artisan serve --host=0.0.0.0 --port=8000"]
