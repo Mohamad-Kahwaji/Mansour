@@ -9,7 +9,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use BladeUI\Icons\Factory;
 
 class ServicesForm
 {
@@ -48,20 +47,7 @@ class ServicesForm
                     ->schema([
                         TextInput::make('icon')
                             ->label('أيقونة الخدمة')
-                            ->helperText('مثال: heroicon-o-fire')
-                            ->rule(function () {
-                                return function (string $attribute, $value, \Closure $fail) {
-                                    if (blank($value)) {
-                                        return;
-                                    }
-
-                                    try {
-                                        app(Factory::class)->svg($value);
-                                    } catch (\Throwable $e) {
-                                        $fail('اسم الأيقونة غير موجود. تأكد من اسم Heroicon.');
-                                    }
-                                };
-                            })
+                            ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
                             ->columnSpanFull(),
                         TextInput::make('sort_order')
                             ->label('ترتيب العرض')
