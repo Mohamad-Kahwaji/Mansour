@@ -9,6 +9,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use BladeUI\Icons\Factory;
 
 class ServicesForm
 {
@@ -55,7 +56,7 @@ class ServicesForm
                                     }
 
                                     try {
-                                        app(\BladeUI\Icons\Factory::class)->make($value);
+                                        app(Factory::class)->svg($value);
                                     } catch (\Throwable $e) {
                                         $fail('اسم الأيقونة غير موجود. تأكد من اسم Heroicon.');
                                     }
