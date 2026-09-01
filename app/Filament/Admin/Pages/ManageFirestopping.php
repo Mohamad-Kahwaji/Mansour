@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Support\CompressedMediaUpload;
 use App\Models\Firestopping;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -109,11 +108,10 @@ class ManageFirestopping extends Page
                                 ->image()
                                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                 ->maxSize(10240)
-                                ->maxParallelUploads(1)
-                                ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
+                                ->maxParallelUploads(4)
+                                ->helperText('الحد الأقصى للصورة 10MB. اسحب الصورة التي تريدها رئيسية واجعلها الأولى في الترتيب.')
                                 ->multiple()
                                 ->reorderable()
-                                ->saveUploadedFileUsing(CompressedMediaUpload::handler('firestopping'))
                                 ->columnSpanFull(),
                         ]),
                 ])

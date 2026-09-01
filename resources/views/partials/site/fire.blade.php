@@ -28,7 +28,7 @@
                 @endif
             </div>
 
-            @php $visuals = $firestopping->getMedia('visual'); @endphp
+            @php $visuals = $firestopping->getMedia('visual')->sortBy('order_column')->values(); @endphp
 
             @if ($visuals->isEmpty())
                 <div class="relative flex aspect-4/3 items-center justify-center border border-cream-line"

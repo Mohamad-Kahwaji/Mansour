@@ -1,4 +1,4 @@
-@php $projectMedia = $project->getMedia('gallery'); @endphp
+@php $projectMedia = $project->getMedia('gallery')->sortBy('order_column')->values(); @endphp
 @if ($projectMedia->isNotEmpty())
     <div id="project-{{ $project->id }}" class="target:flex fixed inset-0 z-50 hidden flex-col overflow-y-auto bg-ink/97 p-6 sm:p-10">
         <div class="mx-auto flex w-full max-w-5xl items-center justify-between pb-6">

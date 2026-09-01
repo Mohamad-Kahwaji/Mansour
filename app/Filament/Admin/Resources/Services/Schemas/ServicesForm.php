@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Services\Schemas;
 
-use App\Filament\Admin\Support\CompressedMediaUpload;
 use BladeUI\Icons\Factory as IconsFactory;
 use Closure;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -85,8 +84,7 @@ class ServicesForm
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(10240)
-                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
-                            ->saveUploadedFileUsing(CompressedMediaUpload::handler('services'))
+                            ->helperText('الحد الأقصى للصورة 10MB.')
                             ->columnSpanFull(),
                     ]),
             ]);

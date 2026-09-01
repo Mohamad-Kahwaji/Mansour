@@ -1,8 +1,11 @@
-@php $projectMedia = $project->getMedia('gallery'); @endphp
+@php
+    $projectMedia = $project->getMedia('gallery')->sortBy('order_column')->values();
+    $mainProjectImage = $projectMedia->first();
+@endphp
 <article>
-    @if ($projectMedia->isNotEmpty())
+    @if ($mainProjectImage)
         <a href="#project-{{ $project->id }}" class="group relative block h-56 overflow-hidden border border-ink-line sm:h-64"
-            style="background-image:url('{{ $projectMedia->first()->getUrl() }}');background-size:cover;background-position:center;">
+            style="background-image:url('{{ $mainProjectImage->getUrl() }}');background-size:cover;background-position:center;">
             <span class="absolute inset-0 bg-ink/0 transition group-hover:bg-ink/20"></span>
             @if ($projectMedia->count() > 1)
                 <span class="absolute bottom-3 end-3 flex items-center gap-1.5 bg-ink/80 px-2.5 py-1 font-display text-xs font-semibold text-ondark">

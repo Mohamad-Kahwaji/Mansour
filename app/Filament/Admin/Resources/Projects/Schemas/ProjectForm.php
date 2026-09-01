@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Projects\Schemas;
 
-use App\Filament\Admin\Support\CompressedMediaUpload;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -70,11 +69,10 @@ class ProjectForm
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(10240)
-                            ->maxParallelUploads(1)
-                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
+                            ->maxParallelUploads(4)
+                            ->helperText('اسحب الصورة التي تريدها رئيسية واجعلها الأولى في الترتيب، فهي التي ستظهر في الصفحة الرئيسية.')
                             ->multiple()
                             ->reorderable()
-                            ->saveUploadedFileUsing(CompressedMediaUpload::handler('projects', enhance: true))
                             ->columnSpanFull(),
                     ]),
             ]);
