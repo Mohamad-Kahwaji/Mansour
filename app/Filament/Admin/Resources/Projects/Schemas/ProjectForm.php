@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Projects\Schemas;
 
+use App\Services\ImageUploadService;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -9,6 +10,10 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Spatie\MediaLibrary\HasMedia;
 
 class ProjectForm
 {
@@ -67,8 +72,35 @@ class ProjectForm
                             ->label('معرض صور المشروع')
                             ->collection('gallery')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(10240)
+                            ->maxParallelUploads(1)
+                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
                             ->multiple()
                             ->reorderable()
+                            ->saveUploadedFileUsing(static function (SpatieMediaLibraryFileUpload $component, TemporaryUploadedFile $file, ?Model $record): ?string {
+                                if (! ($record instanceof HasMedia)) {
+                                    return null;
+                                }
+
+                                if (! $file->exists()) {
+                                    return null;
+                                }
+
+                                $optimizedPath = app(ImageUploadService::class)->compressAndStore(
+                                    file: $file,
+                                    directory: 'projects',
+                                    enhance: true,
+                                );
+
+                                $media = $record
+                                    ->addMediaFromDisk($optimizedPath, 'public')
+                                    ->toMediaCollection($component->getCollection() ?? 'default', 'public');
+
+                                Storage::disk('public')->delete($optimizedPath);
+
+                                return $media->getAttributeValue('uuid');
+                            })
                             ->columnSpanFull(),
                     ]),
             ]);
