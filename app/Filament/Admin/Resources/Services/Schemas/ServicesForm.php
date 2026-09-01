@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Services\Schemas;
 
-use BladeUI\Icons\Exceptions\SvgNotFound;
 use BladeUI\Icons\Factory as IconsFactory;
 use Closure;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -52,15 +51,21 @@ class ServicesForm
                             ->label('أيقونة الخدمة')
                             ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
                             ->nullable()
-                            ->dehydrateStateUsing(static fn(?string $state): ?string => filled(trim((string) $state)) ? trim((string) $state) : null)
+                            ->dehydrateStateUsing(static fn (?string $state): ?string => filled(trim((string) $state)) ? trim((string) $state) : null)
                             ->rule(static function (string $attribute, mixed $value, Closure $fail): void {
-                                if (blank($value)) {
+                                if ($value === null) {
+                                    return;
+                                }
+
+                                $icon = trim((string) $value);
+
+                                if ($icon === '') {
                                     return;
                                 }
 
                                 try {
-                                    app(IconsFactory::class)->svg((string) $value);
-                                } catch (SvgNotFound) {
+                                    app(IconsFactory::class)->svg($icon);
+                                } catch (\Throwable) {
                                     $fail('اسم الأيقونة غير صحيح أو غير موجود. مثال صحيح: heroicon-o-fire');
                                 }
                             })
