@@ -4,7 +4,7 @@
     <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-5 sm:gap-8 sm:px-6 sm:py-6 lg:px-10">
         <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-2 text-ondark sm:gap-3">
             @if ($siteSettings?->logo)
-                <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="h-10 w-auto max-w-[160px] shrink-0 object-contain sm:h-12">
+                <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="h-8 w-auto max-w-[120px] shrink-0 object-contain sm:h-10">
             @else
                 <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-gold-bright/10 text-gold-bright sm:h-9 sm:w-9">
                     <svg viewBox="0 0 24 24" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" aria-hidden="true">

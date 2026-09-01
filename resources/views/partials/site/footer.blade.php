@@ -4,7 +4,7 @@
             <div>
                 <div class="flex items-center gap-3">
                     @if ($siteSettings?->logo)
-                        <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="h-11 w-auto max-w-[160px] shrink-0 object-contain">
+                        <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="h-8 w-auto max-w-[120px] shrink-0 object-contain">
                     @endif
                     <div class="font-display text-lg font-bold tracking-wide">{{ $siteSettings?->site_name }}</div>
                 </div>

@@ -44,7 +44,7 @@
             <div class="absolute inset-0 flex items-center justify-center border border-ink-line [clip-path:polygon(14%_0,100%_0,100%_100%,0_100%)]"
                  style="background: linear-gradient(150deg, #4b4436 0%, #2b2820 46%, #191612 100%);">
                 @if ($siteSettings?->logo)
-                    <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="max-h-[75%] max-w-[80%] object-contain">
+                    <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="max-h-[60%] max-w-[70%] object-contain logo-ghost-white">
                 @endif
             </div>
         </div>

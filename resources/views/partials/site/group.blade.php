@@ -18,7 +18,7 @@
                         <span class="absolute inset-y-6 start-0 w-0.5 bg-gold sm:inset-y-10"></span>
 
                         @if ($logo = $company->getFirstMediaUrl('logo'))
-                            <img src="{{ $logo }}" alt="{{ $company->title }}" class="mb-4 h-10 w-auto">
+                            <img src="{{ $logo }}" alt="{{ $company->title }}" class="mb-4 h-8 w-auto">
                         @endif
 
                         <div class="font-display text-xs font-bold tracking-[.18em] text-gold uppercase">{{ $company->code }}</div>
