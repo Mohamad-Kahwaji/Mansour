@@ -34,11 +34,9 @@ class ProjectForm
                     ->columns(2)
                     ->schema([
                         Textarea::make('scope.ar')
-                            ->label('نطاق العمل (عربي)')
-                            ->required(),
+                            ->label('نطاق العمل (عربي)'),
                         Textarea::make('scope.en')
-                            ->label('Scope (English)')
-                            ->required(),
+                            ->label('Scope (English)'),
                     ]),
                 Section::make('تفاصيل المشروع')
                     ->icon(Heroicon::OutlinedBuildingOffice)
