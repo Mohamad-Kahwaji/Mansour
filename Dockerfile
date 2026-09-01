@@ -24,13 +24,19 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libicu-dev \
     libzip-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libwebp-dev \
+    libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install \
     intl \
     zip \
     exif \
+    gd \
     pdo_mysql
 
 # Install Composer
@@ -38,6 +44,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy project files
 COPY . .
+
+# Raise upload/memory limits for gallery images and Intervention Image processing
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 # Copy Vite production build
 COPY --from=frontend /app/public/build ./public/build
