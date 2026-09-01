@@ -2,6 +2,9 @@
 
 namespace App\Filament\Admin\Resources\Services\Schemas;
 
+use BladeUI\Icons\Exceptions\SvgNotFound;
+use BladeUI\Icons\Factory as IconsFactory;
+use Closure;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -48,6 +51,17 @@ class ServicesForm
                         TextInput::make('icon')
                             ->label('أيقونة الخدمة')
                             ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
+                            ->rule(static function (string $attribute, mixed $value, Closure $fail): void {
+                                if (blank($value)) {
+                                    return;
+                                }
+
+                                try {
+                                    app(IconsFactory::class)->svg((string) $value);
+                                } catch (SvgNotFound) {
+                                    $fail('اسم الأيقونة غير صحيح أو غير موجود. مثال صحيح: heroicon-o-fire');
+                                }
+                            })
                             ->columnSpanFull(),
                         TextInput::make('sort_order')
                             ->label('ترتيب العرض')
