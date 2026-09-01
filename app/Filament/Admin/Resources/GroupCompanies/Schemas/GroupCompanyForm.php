@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\GroupCompanies\Schemas;
 
+use App\Filament\Admin\Support\CompressedMediaUpload;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -56,6 +57,10 @@ class GroupCompanyForm
                             ->label('الشعار')
                             ->collection('logo')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(10240)
+                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
+                            ->saveUploadedFileUsing(CompressedMediaUpload::handler('group-companies'))
                             ->columnSpanFull(),
                     ]),
             ]);

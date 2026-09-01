@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Services\Schemas;
 
+use App\Filament\Admin\Support\CompressedMediaUpload;
 use BladeUI\Icons\Factory as IconsFactory;
 use Closure;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -50,8 +51,8 @@ class ServicesForm
                         TextInput::make('icon')
                             ->label('أيقونة الخدمة')
                             ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
-                            ->dehydrateStateUsing(static fn(?string $state): string => trim((string) $state))
-                            ->rule(static fn(): Closure => static function (string $attribute, mixed $value, Closure $fail): void {
+                            ->dehydrateStateUsing(static fn (?string $state): string => trim((string) $state))
+                            ->rule(static fn (): Closure => static function (string $attribute, mixed $value, Closure $fail): void {
                                 $icon = trim((string) $value);
 
                                 if ($icon === '') {
@@ -82,6 +83,10 @@ class ServicesForm
                             ->label('صورة الخدمة')
                             ->collection('cover')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(10240)
+                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
+                            ->saveUploadedFileUsing(CompressedMediaUpload::handler('services'))
                             ->columnSpanFull(),
                     ]),
             ]);

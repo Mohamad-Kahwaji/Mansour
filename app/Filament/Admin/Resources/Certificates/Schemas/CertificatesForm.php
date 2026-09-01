@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Certificates\Schemas;
 
+use App\Filament\Admin\Support\CompressedMediaUpload;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -52,6 +53,10 @@ class CertificatesForm
                             ->label('صورة الشهادة')
                             ->collection('cover')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(10240)
+                            ->helperText('الحد الأقصى للصورة 10MB. يتم ضغط الصورة تلقائيًا وتحويلها إلى WebP.')
+                            ->saveUploadedFileUsing(CompressedMediaUpload::handler('certificates'))
                             ->columnSpanFull(),
                     ]),
             ]);
