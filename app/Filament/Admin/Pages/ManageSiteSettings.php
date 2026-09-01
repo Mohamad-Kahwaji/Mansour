@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Models\Site_settings;
+use App\Services\ImageUploadService;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
@@ -15,6 +16,8 @@ use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 /**
  * @property-read Schema $form
@@ -118,6 +121,8 @@ class ManageSiteSettings extends Page
                             FileUpload::make('logo')
                                 ->label('شعار الموقع (لوجو)')
                                 ->image()
+                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                ->maxSize(10240)
                                 ->disk('public')
                                 ->directory('site')
                                 ->columnSpanFull(),
@@ -172,14 +177,43 @@ class ManageSiteSettings extends Page
         $data = $this->form->getState();
 
         $record = $this->getRecord() ?? new Site_settings;
+        $currentLogoPath = $record->logo;
 
-        $record->fill($data);
-        $record->save();
+        try {
+            if (filled($data['logo']) && $data['logo'] !== $currentLogoPath) {
+                $optimizedLogoPath = app(ImageUploadService::class)->compressFromPublicPath(
+                    path: $data['logo'],
+                    directory: 'site',
+                );
 
-        Notification::make()
-            ->success()
-            ->title('تم الحفظ')
-            ->send();
+                Storage::disk('public')->delete($data['logo']);
+                $data['logo'] = $optimizedLogoPath;
+
+                if (filled($currentLogoPath) && $currentLogoPath !== $optimizedLogoPath) {
+                    Storage::disk('public')->delete($currentLogoPath);
+                }
+            }
+
+            if (blank($data['logo']) && filled($currentLogoPath)) {
+                Storage::disk('public')->delete($currentLogoPath);
+            }
+
+            $record->fill($data);
+            $record->save();
+
+            Notification::make()
+                ->success()
+                ->title('تم الحفظ')
+                ->send();
+        } catch (ValidationException $exception) {
+            $message = collect($exception->errors())->flatten()->first() ?? 'فشل التحقق من الصورة المرفوعة.';
+
+            Notification::make()
+                ->danger()
+                ->title('تعذر حفظ الشعار')
+                ->body($message)
+                ->send();
+        }
     }
 
     public function getRecord(): ?Site_settings
