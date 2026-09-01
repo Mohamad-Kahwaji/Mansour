@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageUploadRequest;
 use App\Http\Requests\UpdateImageUploadRequest;
-use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -12,13 +11,10 @@ use Throwable;
 
 class ImageUploadController extends Controller
 {
-    public function store(StoreImageUploadRequest $request, ImageUploadService $imageUploadService): JsonResponse
+    public function store(StoreImageUploadRequest $request): JsonResponse
     {
         try {
-            $path = $imageUploadService->compressAndStore(
-                file: $request->file('image'),
-                directory: 'uploads',
-            );
+            $path = $request->file('image')->store('uploads', 'public');
 
             return response()->json([
                 'message' => 'Image uploaded successfully.',
@@ -36,17 +32,14 @@ class ImageUploadController extends Controller
         }
     }
 
-    public function update(UpdateImageUploadRequest $request, ImageUploadService $imageUploadService): JsonResponse
+    public function update(UpdateImageUploadRequest $request): JsonResponse
     {
         try {
             $oldPath = $request->validated('old_path');
             $newPath = $oldPath;
 
             if ($request->hasFile('image')) {
-                $newPath = $imageUploadService->compressAndStore(
-                    file: $request->file('image'),
-                    directory: 'uploads',
-                );
+                $newPath = $request->file('image')->store('uploads', 'public');
 
                 if (is_string($oldPath) && $oldPath !== '' && $oldPath !== $newPath) {
                     Storage::disk('public')->delete($oldPath);

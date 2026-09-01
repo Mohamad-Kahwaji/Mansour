@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Models\Site_settings;
-use App\Services\ImageUploadService;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
@@ -181,15 +180,10 @@ class ManageSiteSettings extends Page
 
         try {
             if (filled($data['logo']) && $data['logo'] !== $currentLogoPath) {
-                $optimizedLogoPath = app(ImageUploadService::class)->compressFromPublicPath(
-                    path: $data['logo'],
-                    directory: 'site',
-                );
-
-                Storage::disk('public')->delete($data['logo']);
-                $data['logo'] = $optimizedLogoPath;
-
-                if (filled($currentLogoPath) && $currentLogoPath !== $optimizedLogoPath) {
+                // Uploaded file path is already stored by Filament FileUpload
+                // Keep the uploaded file as-is (no compression/optimization)
+                // Remove previous logo file if exists
+                if (filled($currentLogoPath) && $currentLogoPath !== $data['logo']) {
                     Storage::disk('public')->delete($currentLogoPath);
                 }
             }
