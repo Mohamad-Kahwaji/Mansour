@@ -47,7 +47,20 @@ class ServicesForm
                     ->schema([
                         TextInput::make('icon')
                             ->label('أيقونة الخدمة')
-                            ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
+                            ->helperText('مثال: heroicon-o-fire')
+                            ->rule(function () {
+                                return function (string $attribute, $value, \Closure $fail) {
+                                    if (blank($value)) {
+                                        return;
+                                    }
+
+                                    try {
+                                        app(\BladeUI\Icons\Factory::class)->make($value);
+                                    } catch (\Throwable $e) {
+                                        $fail('اسم الأيقونة غير موجود. تأكد من اسم Heroicon.');
+                                    }
+                                };
+                            })
                             ->columnSpanFull(),
                         TextInput::make('sort_order')
                             ->label('ترتيب العرض')
