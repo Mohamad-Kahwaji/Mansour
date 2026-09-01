@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class certificates extends Model implements HasMedia
+class Certificates extends Model implements HasMedia
 {
     use HasTranslations;
     use InteractsWithMedia;

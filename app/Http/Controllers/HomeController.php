@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\certificates;
+use App\Models\Certificates;
 use App\Models\Firestopping;
 use App\Models\GroupCompany;
 use App\Models\Project;
-use App\Models\services;
+use App\Models\Services;
 use App\Models\Site_settings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,9 +19,9 @@ class HomeController extends Controller
         return view('home', [
             'siteSettings' => Site_settings::first(),
             'companies' => GroupCompany::orderBy('sort_order')->get(),
-            'services' => $this->featuredOrLatest(services::query(), 6),
+            'services' => $this->featuredOrLatest(Services::query(), 6),
             'projects' => $this->featuredOrLatest(Project::query(), 6),
-            'certificates' => certificates::orderBy('sort_order')->get(),
+            'certificates' => Certificates::orderBy('sort_order')->get(),
             'firestopping' => Firestopping::first(),
         ]);
     }

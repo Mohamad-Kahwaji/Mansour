@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\services;
+use App\Models\Services;
 use App\Models\Site_settings;
 use Illuminate\View\View;
 
@@ -12,7 +12,7 @@ class ServiceController extends Controller
     {
         return view('services.index', [
             'siteSettings' => Site_settings::first(),
-            'services' => services::orderBy('sort_order')->get(),
+            'services' => Services::orderBy('sort_order')->get(),
         ]);
     }
 }

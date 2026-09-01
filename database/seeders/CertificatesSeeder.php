@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\certificates;
+use App\Models\Certificates;
 use Illuminate\Database\Seeder;
 
 class CertificatesSeeder extends Seeder
@@ -23,7 +23,7 @@ class CertificatesSeeder extends Seeder
         ];
 
         foreach ($certificates as $certificate) {
-            certificates::create($certificate);
+            Certificates::create($certificate);
         }
     }
 }

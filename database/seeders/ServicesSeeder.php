@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\services;
+use App\Models\Services;
 use Illuminate\Database\Seeder;
 
 class ServicesSeeder extends Seeder
@@ -79,7 +79,7 @@ class ServicesSeeder extends Seeder
         ];
 
         foreach ($services as $service) {
-            services::create($service);
+            Services::create($service);
         }
     }
 }
