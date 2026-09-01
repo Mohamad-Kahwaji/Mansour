@@ -51,7 +51,7 @@ class ServicesForm
                             ->label('أيقونة الخدمة')
                             ->helperText('اسم أيقونة من مكتبة Heroicons، مثال: heroicon-o-fire')
                             ->dehydrateStateUsing(static fn(?string $state): string => trim((string) $state))
-                            ->rule(static function (string $attribute, mixed $value, Closure $fail): void {
+                            ->rule(static fn(): Closure => static function (string $attribute, mixed $value, Closure $fail): void {
                                 $icon = trim((string) $value);
 
                                 if ($icon === '') {
