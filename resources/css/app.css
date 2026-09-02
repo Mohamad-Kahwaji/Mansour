@@ -25,7 +25,11 @@ html[dir='rtl'] body {
     font-family: var(--font-arabic);
 }
 
-html[dir='rtl'] .font-display {
+.hero-title {
+    font-family: var(--font-display);
+}
+
+html[dir='rtl'] .hero-title {
     font-family: var(--font-arabic);
 }
 
