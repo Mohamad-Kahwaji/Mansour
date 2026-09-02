@@ -7,11 +7,11 @@
             </span>
 
             <h1 class="font-display mt-5 text-3xl leading-[1.1] font-bold tracking-tight text-balance sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-6xl">
-                {{ $siteSettings?->tagline }}
+                {{ $siteSettings?->getTranslation('tagline', app()->getLocale()) ?? $siteSettings?->tagline }}
             </h1>
 
             <p class="mt-5 max-w-xl text-base text-ondark-muted sm:mt-6 sm:text-lg">
-                {{ $siteSettings?->about }}
+                {{ $siteSettings?->getTranslation('about', app()->getLocale()) ?? $siteSettings?->about }}
             </p>
 
             <div class="mt-7 flex flex-wrap gap-3 sm:mt-9 sm:gap-4">
@@ -28,7 +28,10 @@
                     <div>
                         <span class="block text-[.68rem] tracking-[.16em] text-ondark-muted uppercase">{{ __('site.hero.established_label') }}</span>
                         <b class="text-sm font-bold tracking-wide sm:text-base">
-                            {{ collect([$siteSettings->established_location, $siteSettings->established_year])->filter()->implode(' · ') }}
+                            {{ collect([
+                                $siteSettings?->getTranslation('established_location', app()->getLocale()) ?? $siteSettings?->established_location,
+                                $siteSettings?->established_year,
+                            ])->filter()->implode(' · ') }}
                         </b>
                     </div>
                 @endif
@@ -39,12 +42,12 @@
             </div>
         </div>
 
-        <div class="relative h-[280px] sm:h-[380px] lg:h-[64vh] lg:min-h-[440px]">
+        <div class="relative h-[270px] sm:h-[370px] lg:h-[64vh] lg:min-h-[440px]">
             <div class="absolute inset-y-[8%] start-[9%] z-10 w-0.5 bg-gold-bright"></div>
             <div class="absolute inset-0 flex items-center justify-center border border-ink-line [clip-path:polygon(14%_0,100%_0,100%_100%,0_100%)]"
                  style="background: linear-gradient(150deg, #4b4436 0%, #2b2820 46%, #191612 100%);">
                 @if ($siteSettings?->logo)
-                    <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="max-h-[60%] max-w-[70%] object-contain logo-ghost-white">
+                    <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="max-h-[60%] max-w-[70%] object-contain">
                 @endif
             </div>
         </div>

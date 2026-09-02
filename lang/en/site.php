@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'heading'=>[
+        
+    ],
     'nav' => [
         'group' => 'The Group',
         'services' => 'Capabilities',

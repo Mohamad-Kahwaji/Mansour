@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $siteSettings?->site_name ?? config('app.name') }}</title>
-    <meta name="description" content="{{ $siteSettings?->tagline }}">
+    <title>{{ $siteSettings?->getTranslation('site_name', app()->getLocale()) ?? $siteSettings?->site_name ?? config('app.name') }}</title>
+    <meta name="description" content="{{ $siteSettings?->getTranslation('tagline', app()->getLocale()) ?? $siteSettings?->tagline }}">
 
     @if ($siteSettings?->logo)
         <link rel="icon" href="{{ asset('storage/'.$siteSettings->logo) }}">

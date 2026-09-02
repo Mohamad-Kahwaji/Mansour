@@ -4,11 +4,11 @@
             <div>
                 <div class="flex items-center gap-3">
                     @if ($siteSettings?->logo)
-                        <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="h-8 w-auto max-w-[120px] shrink-0 object-contain">
+                        <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings?->getTranslation('site_name', app()->getLocale()) ?? $siteSettings?->site_name }}" class="h-8 w-auto max-w-[120px] shrink-0 object-contain">
                     @endif
-                    <div class="font-display text-lg font-bold tracking-wide">{{ $siteSettings?->site_name }}</div>
+                    <div class="font-display text-lg font-bold tracking-wide">{{ $siteSettings?->getTranslation('site_name', app()->getLocale()) ?? $siteSettings?->site_name }}</div>
                 </div>
-                <p class="mt-3 text-sm text-ondark-muted">{{ $siteSettings?->tagline }}</p>
+                <p class="mt-3 text-sm text-ondark-muted">{{ $siteSettings?->getTranslation('tagline', app()->getLocale()) ?? $siteSettings?->tagline }}</p>
 
                 <div class="mt-5 flex gap-3">
                     @if ($siteSettings?->facebook_url)
@@ -61,14 +61,14 @@
 
             <div>
                 <h5 class="font-display mb-4 text-[.76rem] font-semibold tracking-[.16em] text-ondark uppercase">{{ __('site.footer.visit_us') }}</h5>
-                <p class="text-sm text-ondark-muted">{{ $siteSettings?->address }}</p>
+                <p class="text-sm text-ondark-muted">{{ $siteSettings?->getTranslation('address', app()->getLocale()) ?? $siteSettings?->address }}</p>
             </div>
         </div>
     </div>
 
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-10">
         <div class="flex flex-wrap items-center justify-between gap-3 text-sm text-ondark-muted">
-            <span>&copy; {{ now()->year }} {{ $siteSettings?->site_name }}. {{ __('site.footer.rights') }}</span>
+            <span>&copy; {{ now()->year }} {{ $siteSettings?->getTranslation('site_name', app()->getLocale()) ?? $siteSettings?->site_name }}. {{ __('site.footer.rights') }}</span>
         </div>
     </div>
 </footer>
