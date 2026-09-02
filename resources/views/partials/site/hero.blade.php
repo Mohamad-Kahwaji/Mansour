@@ -42,11 +42,11 @@
             </div>
         </div>
 
-        <div class="relative h-[270px] sm:h-[370px] lg:h-[64vh] lg:min-h-[440px]">
+       <div class="relative h-[270px] sm:h-[370px] lg:h-[64vh] lg:min-h-[440px]">
     <div class="absolute inset-y-[8%] start-[9%] z-10 w-0.5 bg-gold-bright"></div>
     <div class="absolute inset-0 flex items-center justify-center border border-ink-line
                 [clip-path:polygon(14%_0,100%_0,100%_100%,0_100%)]
-                ltr:[clip-path:polygon(86%_0,100%_0,100%_100%,0_100%)]"
+                ltr:[clip-path:polygon(0_0,86%_0,100%_100%,0_100%)]"
          style="background: linear-gradient(150deg, #4b4436 0%, #2b2820 46%, #191612 100%);">
         @if ($siteSettings?->logo)
             <img src="{{ asset('storage/'.$siteSettings->logo) }}" alt="{{ $siteSettings->site_name }}" class="max-h-[60%] max-w-[70%] object-contain">
