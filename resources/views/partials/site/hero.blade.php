@@ -6,9 +6,9 @@
                 {{ __('site.hero.eyebrow') }}
             </span>
 
-            <h2 class="hero-title font-display mt-5 text-3xl leading-[1.1] font-bold tracking-wide text-balance sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-6xl [word-spacing:0.15em]">
+            <h3 class="hero-title font-display mt-5 text-3xl leading-[1.1] font-bold tracking-wide text-balance sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-6xl [word-spacing:0.15em]">
                 {{ $siteSettings?->getTranslation('tagline', app()->getLocale()) ?? $siteSettings?->tagline }}
-            </h2>
+            </h3>
 
             <p class="mt-5 max-w-xl text-base text-ondark-muted sm:mt-6 sm:text-lg">
                 {{ $siteSettings?->getTranslation('about', app()->getLocale()) ?? $siteSettings?->about }}
