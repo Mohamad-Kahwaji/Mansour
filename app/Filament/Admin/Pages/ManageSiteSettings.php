@@ -63,16 +63,20 @@ class ManageSiteSettings extends Page
                         ->icon(Heroicon::OutlinedIdentification)
                         ->columns(2)
                         ->schema([
-                            TextInput::make('site_name.ar')
+                            Textarea::make('site_name.ar')
                                 ->label('اسم الموقع (عربي)')
                                 ->required(),
-                            TextInput::make('site_name.en')
+                            Textarea::make('site_name.en')
                                 ->label('Site name (English)')
                                 ->required(),
-                            TextInput::make('tagline.ar')
-                                ->label('الشعار النصي (عربي)'),
-                            TextInput::make('tagline.en')
-                                ->label('Tagline (English)'),
+                            Textarea::make('tagline.ar')
+                                ->label('الشعار النصي (عربي)')
+                                ->rows(2)
+                                ->required(),
+                            Textarea::make('tagline.en')
+                                ->label('Tagline (English)')
+                                ->rows(2)
+                                ->required(),
                         ]),
                     Section::make('نبذة عن الشركة')
                         ->description('فقرة تعريفية قصيرة تظهر بالصفحة الرئيسية')
