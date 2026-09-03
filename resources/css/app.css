@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
-
 @font-face {
     font-family: 'BEDR';
     src: url('/fonts/filament/filament/inter/BEDR.TTF') format('truetype');
@@ -43,6 +42,7 @@ html[dir='rtl'] body {
 
 .hero-title {
     font-family: var(--font-display);
+    white-space: pre-line;
 }
 
 html[dir='rtl'] .hero-title {
